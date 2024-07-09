@@ -1,12 +1,21 @@
 // test/app.test.js
-import fetch from "node-fetch";
 
-const request = require('supertest');
-const express = require('express');
-const chai = require('chai');
-const expect = chai.expect;
+import request from 'supertest';
+import { expect as _expect } from 'chai';
+import rewire from 'rewire';
 
-const app = require('../src/app'); // Assuming your app is exported from app.js or index.js
+const expect = _expect;
+
+import app from '../src/index'; // Assuming your app is exported from app.js or index.js
+
+// let app = rewire('../src/index');
+
+describe('Testing express app routes', () => {
+
+  afterEach(() => {
+    app = rewire('../src/index');
+    sandbox.restore();
+  });
 
 describe('GET /', () => {
   it('should return "ok"', async () => {
@@ -36,4 +45,5 @@ describe('GET /services/service-1/status', () => {
       
     expect(res.text).to.equal('ok');
   });
+});
 });
